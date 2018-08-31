@@ -1,4 +1,4 @@
 # WeiBo
-fetch some weibo's users information
-It's not finished yet
-It base on Scrapy 
+fetch some weibo's users information /n
+It's not finished yet /n
+It base on Scrapy  
