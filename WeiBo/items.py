@@ -21,3 +21,9 @@ class UserItem(scrapy.Item):
     verified_reason = Field()
     profile_image_url = Field()
 
+
+class UserRelationItem(scrapy.Item):
+    collection = 'users'
+    id = Field()
+    follows = Field()
+    fans = Field()
