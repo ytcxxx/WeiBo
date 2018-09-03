@@ -60,10 +60,30 @@ class WeiboSpider(scrapy.Spider):
                     yield user_relation_item
                     # 下一页关注
                     page = response.meta.get('page') + 1
-                    yield Request(self.follower_url.format(uid=uid, page=page), self.parse_follower, meta={'page': 'page', 'uid': 'uid'})
+                    yield Request(self.follower_url.format(uid=uid, page=page), self.parse_follower, meta={'page': page, 'uid': uid})
     
     def parse_fan(self, response):
-        pass
+        result = json.loads(response.text)
+        if result.get('ok') == 0 and result.get('data').get('cards') and len(result.get('data').get('cards')) \
+            and result.get('data').get('cards')[-1].get('card_group'):
+            follows = result.get('data').get('cards')[-1].get('card_group')
+            for follow in follows:
+                if follow.get('user'):
+                    uid = follow.get('user').get('id')
+                    yield Request(self.user_url.format(uid=uid), self.parse)
+                    # 粉丝列表
+                    uid = response.meta.get('uid')
+                    user_relation_item = UserRelationItem()
+                    follows = [{'id': follow.get('user').get('id'), 'name': follow.get('user').get('screen_name')} for
+                               follow in follows]
+                    user_relation_item['id'] = uid
+                    user_relation_item['follows'] = []
+                    user_relation_item['fans'] = follows
+                    yield user_relation_item
+                    # 下一页关注
+                    page = response.meta.get('page') + 1
+                    yield Request(self.fan_url.format(uid=uid, page=page), self.parse_follower,
+                                  meta={'page': page, 'uid': uid})
     
     def parse_weibo(self, response):
         pass
