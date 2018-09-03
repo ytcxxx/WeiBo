@@ -11,7 +11,7 @@ class WeiboSpider(scrapy.Spider):
     name = "weibo"
     allowed_domains = ["m.weibo.cn"]
     start_urls = ['http://m.weibo.cn/']
-    
+    "更新代码"
     start_uid = ['6014513352', '1239246050', '2656274875']
     
     user_url = 'https://m.weibo.cn/profile/info?uid={uid}'
