@@ -4,14 +4,13 @@ import json
 import scrapy
 from scrapy import Request
 
-from WeiBo.items import UserItem, UserRelationItem
+from WeiBo.items import UserItem, UserRelationItem, WeiboItem
 
 
 class WeiboSpider(scrapy.Spider):
     name = "weibo"
     allowed_domains = ["m.weibo.cn"]
     start_urls = ['http://m.weibo.cn/']
-    "更新代码"
     start_uid = ['6014513352', '1239246050', '2656274875']
     
     user_url = 'https://m.weibo.cn/profile/info?uid={uid}'
@@ -86,5 +85,25 @@ class WeiboSpider(scrapy.Spider):
                                   meta={'page': page, 'uid': uid})
     
     def parse_weibo(self, response):
-        pass
+        result = json.loads(response.text)
+        if result.get('ok') == 1 and result.get('data').get('cards'):
+            weibos = result.get('data').get('cards')
+            for weibo in weibos:
+                mblog = weibo.get('mblog')
+                if mblog:
+                    weibo_item = WeiboItem()
+                    field_map = {
+                        'id': 'id', 'attitudes_count': 'attitudes_count', 'comments_count': 'comments_count',
+                        'created_at': 'created_at', 'reposts_count': 'reposts_count',
+                        'pictures': 'bmiddle_pic', 'source': 'source', 'text': 'text', 'textLength': 'textLength',
+                        'thumbnail': 'thumbnail_pic'
+                    }
+                    for field, attr in field_map.items():
+                        weibo_item[field] = mblog.get(attr)
+                        weibo_item['user'] = response.meta.get('uid')
+                        yield weibo_item
+                    # 下一页微博
+                    uid = response.meta.get('uid')
+                    page = response.meta.get('page') + 1
+                    yield Request(self.weibo_url.format(uid=uid, page=page), self.parse_weibo, meta={'uid': uid, 'page': page})
     

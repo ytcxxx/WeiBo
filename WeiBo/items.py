@@ -27,3 +27,19 @@ class UserRelationItem(scrapy.Item):
     id = Field()
     follows = Field()
     fans = Field()
+
+
+class WeiboItem(scrapy.Item):
+    collection = 'weibos'
+    id = Field()
+    attitudes_count = Field()
+    comments_count = Field()
+    reposts_count = Field()
+    source = Field()
+    pictures = Field()
+    text = Field()
+    textLength = Field()
+    thumbnail = Field()
+    user = Field()
+    created_at = Field()
+    crawled_at = Field()
