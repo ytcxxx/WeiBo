@@ -20,6 +20,9 @@ NEWSPIDER_MODULE = 'WeiBo.spiders'
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = True
 
+MONGO_URI = 'localhost'
+MONGO_DB = 'WeiboUser'
+
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 # CONCURRENT_REQUESTS = 32
 
@@ -73,9 +76,11 @@ DEFAULT_REQUEST_HEADERS = {
 
 # Configure item pipelines
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
-# ITEM_PIPELINES = {
-#    'WeiBo.pipelines.WeiboPipeline': 300,
-# }
+ITEM_PIPELINES = {
+   'WeiBo.pipelines.WeiboPipeline': 300,
+   'WeiBo.pipelines.TimePipeline': 301,
+   'WeiBo.pipelines.MongoPipeline': 302,
+}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See http://doc.scrapy.org/en/latest/topics/autothrottle.html

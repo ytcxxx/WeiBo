@@ -20,6 +20,7 @@ class UserItem(scrapy.Item):
     gender = Field()
     verified_reason = Field()
     profile_image_url = Field()
+    crawled_at = Field()
 
 
 class UserRelationItem(scrapy.Item):

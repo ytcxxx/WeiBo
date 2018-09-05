@@ -2,6 +2,7 @@
 import json
 
 import scrapy
+from conda_build import source
 from scrapy import Request
 
 from WeiBo.items import UserItem, UserRelationItem, WeiboItem
@@ -94,16 +95,15 @@ class WeiboSpider(scrapy.Spider):
                     weibo_item = WeiboItem()
                     field_map = {
                         'id': 'id', 'attitudes_count': 'attitudes_count', 'comments_count': 'comments_count',
-                        'created_at': 'created_at', 'reposts_count': 'reposts_count',
-                        'pictures': 'bmiddle_pic', 'source': 'source', 'text': 'text', 'textLength': 'textLength',
-                        'thumbnail': 'thumbnail_pic'
+                        'created_at': 'created_at', 'reposts_count': 'reposts_count', 'text': 'text',
+                        'pictures': 'bmiddle_pic', 'source': 'source', 'textLength': 'textLength',
+                        'thumbnail': 'thumbnail'
                     }
                     for field, attr in field_map.items():
                         weibo_item[field] = mblog.get(attr)
-                        weibo_item['user'] = response.meta.get('uid')
-                        yield weibo_item
-                    # 下一页微博
-                    uid = response.meta.get('uid')
-                    page = response.meta.get('page') + 1
-                    yield Request(self.weibo_url.format(uid=uid, page=page), self.parse_weibo, meta={'uid': uid, 'page': page})
-    
+                    weibo_item['user'] = response.meta.get('uid')
+                    yield weibo_item
+            # 下一页微博
+            uid = response.meta.get('uid')
+            page = response.meta.get('page') + 1
+            yield Request(self.weibo_url.format(uid=uid, page=page), self.parse_weibo, meta={'uid': uid, 'page': page})
