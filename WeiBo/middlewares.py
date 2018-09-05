@@ -56,5 +56,12 @@ class ProxyMiddleware:
             proxy = self.get_random_proxy()
             if proxy:
                 uri = 'https://{proxy}'.format(proxy=proxy)
-                self.logger.debug('匹配代理' + proxy)
+                self.logger.debug('匹配代理' + json.dumps(proxy))
                 request.meta['proxy'] = uri
+                
+    @classmethod
+    def from_crawler(cls, crawler):
+        cls(
+            proxy_url=crawler.settings.get('PROXY_RUL')
+        )
+    

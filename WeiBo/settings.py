@@ -23,6 +23,11 @@ ROBOTSTXT_OBEY = True
 MONGO_URI = 'localhost'
 MONGO_DB = 'WeiboUser'
 
+# COOKIES_URL = 'http://localhost:5000/weibo/random'
+PROXY_URL = 'http://localhost:5000/random'
+
+RETRY_HTTP_CODES = [401, 403, 408, 414, 500, 502, 503, 504]
+
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 # CONCURRENT_REQUESTS = 32
 
@@ -58,9 +63,10 @@ DEFAULT_REQUEST_HEADERS = {
 
 # Enable or disable spider middlewares
 # See http://scrapy.readthedocs.org/en/latest/topics/spider-middleware.html
-# SPIDER_MIDDLEWARES = {
-#    'WeiBo.middlewares.WeiboSpiderMiddleware': 543,
-# }
+SPIDER_MIDDLEWARES = {
+   'WeiBo.middlewares.CookiesMiddleware': 554,
+   'WeiBo.middlewares.ProxyMiddleware': 555,
+}
 
 # Enable or disable downloader middlewares
 # See http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
