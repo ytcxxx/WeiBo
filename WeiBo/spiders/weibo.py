@@ -52,11 +52,10 @@ class WeiboSpider(scrapy.Spider):
                     # 关注列表
                     uid = response.meta.get('uid')
                     user_relation_item = UserRelationItem()
-                    follows = [{'id': follow.get('user').get('id'), 'name': follow.get('user').get('screen_name')} for
-                               follow in follows]
+                    follows = [{'id': follow.get('user').get('id'), 'name': follow.get('user').get('screen_name')} for follow in follows]
                     user_relation_item['id'] = uid
-                    user_relation_item['follows'] = follows
                     user_relation_item['fans'] = []
+                    user_relation_item['follows'] = follows
                     yield user_relation_item
                     # 下一页关注
                     page = response.meta.get('page') + 1

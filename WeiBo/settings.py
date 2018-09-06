@@ -24,7 +24,7 @@ MONGO_URI = 'localhost'
 MONGO_DB = 'WeiboUser'
 
 # COOKIES_URL = 'http://localhost:5000/weibo/random'
-PROXY_URL = 'http://localhost:5000/random'
+PROXY_URL = 'http://localhost:5555/random'
 
 RETRY_HTTP_CODES = [401, 403, 408, 414, 500, 502, 503, 504]
 
@@ -52,7 +52,6 @@ DEFAULT_REQUEST_HEADERS = {
     'Accept-Language': ' zh-CN,zh;q=0.9',
     'Cache-Control': ' no-cache',
     'Connection': ' keep-alive',
-    'Cookie': ' SUHB=0WGcRfgRuTeHaP; SCF=AjZQ0fPOZB8ilamEjL2oBCn1Iqz6ZjGX610VPT7WI4FBVLPnxdwy59PTkCEfDVfBQ61F5REbl7zz7mrGPSOTOoY.; SSOLoginState=1532434632; _T_WM=a833756dcdb29e3aa6ad1106bb980bb8; WEIBOCN_FROM=1110006030; MLOGIN=0; M_WEIBOCN_PARAMS=luicode%3D20000174%26lfid%3D102803%26uicode%3D10000011%26fid%3D102803',
     'Host': ' m.weibo.cn',
     'MWeibo-Pwa': ' 1',
     'Pragma': ' no-cache',
@@ -64,7 +63,7 @@ DEFAULT_REQUEST_HEADERS = {
 # Enable or disable spider middlewares
 # See http://scrapy.readthedocs.org/en/latest/topics/spider-middleware.html
 SPIDER_MIDDLEWARES = {
-   'WeiBo.middlewares.CookiesMiddleware': 554,
+   # 'WeiBo.middlewares.CookiesMiddleware': 554,
    'WeiBo.middlewares.ProxyMiddleware': 555,
 }
 
